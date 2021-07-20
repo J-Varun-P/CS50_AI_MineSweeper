@@ -207,59 +207,73 @@ class MinesweeperAI():
                         if (i+cell[0],j+cell[1]) != cell:
                             neighbor_cells.add((i+cell[0],j+cell[1]))
         sentence = Sentence(neighbor_cells, count)
-
         self.knowledge.append(sentence)
-        print("----------------")
+
+        check = 1
+        while(check == 1):
+            check = 0
+            for i in range(len(self.knowledge)-1):
+                for j in range(i+1,len(self.knowledge)):
+                    x = self.knowledge[i]
+                    y = self.knowledge[j]
+                    if len(x.cells) != 0 and len(y.cells) != 0:
+                        if x.cells.issubset(y.cells):
+                            check = 1
+                            y.cells = y.cells - x.cells
+                            y.count = y.count - x.count
+                        if y.cells.issubset(x.cells):
+                            check = 1
+                            x.cells = x.cells - y.cells
+                            x.count = x.count - y.count
+
+
+        check = 1
+        while(check == 1):
+            check = 0
+            for i in self.knowledge:
+                if i.count == 0:
+                    if len(i.cells) != 0:
+                        check = 1
+                        temp = []
+                        for j in i.cells:
+                            temp.append(j)
+                        for j in temp:
+                            self.mark_safe(j)
+                if i.count == len(i.cells):
+                    if len(i.cells) != 0:
+                        check = 1
+                        temp = []
+                        for j in i.cells:
+                            temp.append(j)
+                        for j in temp:
+                            self.mark_mine(j)
+
+        for i in self.knowledge:
+            for j in self.safes:
+                if j in i.cells:
+                    i.mark_safe(j)
+            for j in self.mines:
+                if j in i.cells:
+                    i.mark_mine(j)
+
+        #for i in self.safes:
+        #    for j in self.knowledge:
+        #        if i in j.cells:
+
+
+        print("-------knowledge---------")
         for i in self.knowledge:
             print(i)
-        print("----------------")
-        print("-----safes------")
+        print("-------knowledge---------")
+        print("-----safes---------------")
         print(self.safes)
-        print("-----safes------")
-
-        for i in range(len(self.knowledge)-1):
-            for j in range(i+1,len(self.knowledge)):
-                x = self.knowledge[i]
-                y = self.knowledge[j]
-                if len(x.cells) != 0 and len(y.cells) != 0:
-                    if x.cells.issubset(y.cells):
-                        y.cells = y.cells - x.cells
-                        y.count = y.count - x.count
-                    if y.cells.issubset(x.cells):
-                        x.cells = x.cells - y.cells
-                        x.count = x.count - y.count
-
-        for i in self.mines:
-            for j in self.knowledge:
-                if i in j.cells:
-                    i.
-
-        for i in self.knowledge:
-            if i.count == 0:
-                if len(i.cells) != 0:
-                    temp = []
-                    for j in i.cells:
-                        temp.append(j)
-                    for j in temp:
-                        self.mark_safe(j)
-            if i.count == len(i.cells):
-                if len(i.cells) != 0:
-                    temp = []
-                    for j in i.cells:
-                        temp.append(j)
-                    for j in temp:
-                        self.mark_mine(j)
-
-        for i in self.safes:
-            for j in self.knowledge:
-                if i in j.cells:
-
-        print("-----safemoves------")
+        print("-----safes---------------")
+        print("-----safemoves-----------")
         print(self.safes-self.moves_made)
-        print("-----safemoves------")
-        print("-----mines------")
+        print("-----safemoves-----------")
+        print("-----mines---------------")
         print(self.mines)
-        print("-----mines------")
+        print("-----mines---------------")
 
         #raise NotImplementedError
 
