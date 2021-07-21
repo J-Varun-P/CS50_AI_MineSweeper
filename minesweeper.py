@@ -256,7 +256,7 @@ class MinesweeperAI():
                 if j in i.cells:
                     i.mark_mine(j)
 
-    
+
         #raise NotImplementedError
 
     def make_safe_move(self):
@@ -281,6 +281,8 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
+        if len(self.moves_made) == 56:
+            return None
         while True:
             i = random.randint(0,7)
             j = random.randint(0,7)
