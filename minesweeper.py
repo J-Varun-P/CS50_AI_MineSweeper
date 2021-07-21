@@ -256,25 +256,7 @@ class MinesweeperAI():
                 if j in i.cells:
                     i.mark_mine(j)
 
-        #for i in self.safes:
-        #    for j in self.knowledge:
-        #        if i in j.cells:
-
-
-        print("-------knowledge---------")
-        for i in self.knowledge:
-            print(i)
-        print("-------knowledge---------")
-        print("-----safes---------------")
-        print(self.safes)
-        print("-----safes---------------")
-        print("-----safemoves-----------")
-        print(self.safes-self.moves_made)
-        print("-----safemoves-----------")
-        print("-----mines---------------")
-        print(self.mines)
-        print("-----mines---------------")
-
+    
         #raise NotImplementedError
 
     def make_safe_move(self):
